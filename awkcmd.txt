@@ -1,0 +1,11 @@
+
+//AWK command to swap the timestamp and transcription. By default the timestamp comes after
+//the transcription, but the format requires the timestamp to come before the transcription
+//this awk command swaps the order. 
+//
+//Usage: orig_transcript.txt: original transcription file before the timestamp swap
+//       formatted_transcript.txt: formatted transcription
+//
+awk -F'\n' '{
+  print $2, $1, $3
+  }' OFS='\n' RS= ORS='\n' orig_transcript.txt > formatted_transcript.txt
