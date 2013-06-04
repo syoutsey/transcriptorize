@@ -1,175 +1,166 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<!-- saved from url=(0043)http://samswiches.com/transcript/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
-	<title>Nick Transcript</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="stylesheet" type="text/css" href="toggle-switch.css">
-<script type="text/javascript">
-document.onkeypress = keyPress;
-var prevTime = '0:00:00';
-var newlineCount = 0;
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-window.onload = function ()
-{
-	console.log("executing");
-	var obj = document.getElementById("transcriptArea");
-	obj.value = "";
-}
+    <title>Transcriptorize</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="toggle-switch.css" />
+    <script type="text/javascript">
 
-function keyPress(evt)
-{
-	var key = evt.keyCode;    
-		console.log('in keypress' + key);
-	if (key == 13) // map return key
-	{         
-		appendTimestamp();
-		return false;
-	} 
-	if (key == 92) // map "\" to rewind/play
-	{
-		pauseVideo(1);
-		return false;
-	}
-	if (key == 61) //mapped to "="
-	{
-		setSaveFile();
-		return false;
-	}
-	if (key == 93) //map regular pause/play to "]"
-	{
-		pauseVideo(0);
-		return false;
-	}
-}	
+    document.onkeypress = keyPress;
+    var prevTime = '0:00:00';
+    var newlineCount = 0;
+
+    window.onload = function ()
+    {
+        var obj = document.getElementById("transcriptArea");
+        obj.value = "";
+    }
+
+    function keyPress(evt)
+    {
+        var key = evt.keyCode;
+        if (key == 13) // map return key
+        {         
+            appendTimestamp();
+            return false;
+        } 
+        if (key == 92) // map "\" to rewind/play
+        {
+            pauseVideo(1);
+            return false;
+        }
+        if (key == 61) //mapped to "="
+        {
+            setSaveFile();
+            return false;
+        }
+        if (key == 93) //map regular pause/play to "]"
+        {
+            pauseVideo(0);
+            return false;
+        }
+    }       
 
 
-function pauseVideo(arg)
-{
-	var v = document.getElementsByTagName('video')[0];
-	if(v.paused)
-	{
-		//rewind ~2 seconds when playing back again. 
-		if(arg)
-			v.currentTime -= 1;
-		v.play();
-	}
-	else 
-	{
-		v.pause();
-	}
-}
+    function pauseVideo(arg)
+    {
+        var v = document.getElementsByTagName('video')[0];
+        if(v.paused)
+        {
+                //rewind ~2 seconds when playing back again. 
+                if(arg)
+                        v.currentTime -= 1;
+                v.play();
+        }
+        else 
+        {
+                v.pause();
+        }
+    }
 
-function appendTimestamp(tstamp)
-{
-	var obj = document.getElementById("transcriptArea");
-	//var split = obj.value.split("\n");
-	//newlineCount += 3;
-	//var last = split[newlineCount-1];
-	//split.splice(newlineCount-2, newlineCount-1);
-	//var newtext = split.join('\n');
-	var time = parseInt(document.getElementsByTagName('video')[0].currentTime);
-	// hacky workaround to get the timestamp to appear before text
-	// split text, remove last line, add time stamp and then 
-	// place last line back along with newlines. 
-	obj.value += "\n"
-    obj.value += prevTime;
-    obj.value += '.000';
-    obj.value += ',';
-    prevTime = cheat(time);
-    obj.value += prevTime;
-    obj.value += '.000';
-    //
-    obj.value += "\n\n";
-    //
-    //newtext += '\n';
-    //newtext += last;
-    //newtext += '\n\n\n\n';
-    //obj.value = newtext
-}
+    function appendTimestamp(tstamp)
+    {
+        var obj = document.getElementById("transcriptArea");
+        //var split = obj.value.split("\n");
+        //newlineCount += 3;
+        //var last = split[newlineCount-1];
+        //split.splice(newlineCount-2, newlineCount-1);
+        //var newtext = split.join('\n');
+        var time = parseInt(document.getElementsByTagName('video')[0].currentTime);
+        // hacky workaround to get the timestamp to appear before text
+        // split text, remove last line, add time stamp and then 
+        // place last line back along with newlines. 
+        obj.value += "\n";
+	    obj.value += prevTime;
+	    obj.value += '.000';
+	    obj.value += ',';
+	    prevTime = cheat(time);
+	    obj.value += prevTime;
+	    obj.value += '.000';
+	    //
+	    obj.value += "\n\n";
+	    //
+	    //newtext += '\n';
+	    //newtext += last;
+	    //newtext += '\n\n\n\n';
+	    //obj.value = newtext
+    }
 
-function secondsToHms(d)
-{
-	d = Number(d);
-	var h = Math.floor(d / 3600);
-	var m = Math.floor(d % 3600 / 60);
-	var s = Math.floor(d % 3600 % 60);
-	// return (h + ":" + m + ":" + s);
-// }
-	return ((h < 10 ? "0" + h + ":" : h) + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "0:") + (s < 10 	? "0" : "") + s);
-}
-function cheat(secs)
-{
-	var t = new Date(1970,0,1);
-	t.setSeconds(secs);
-	console.log( t.toTimeString().substr(1,7));
-	return t.toTimeString().substr(1,7);
-}
+    function secondsToHms(d)
+    {
+        d = Number(d);
+        var h = Math.floor(d / 3600);
+        var m = Math.floor(d % 3600 / 60);
+        var s = Math.floor(d % 3600 % 60);
+        // return (h + ":" + m + ":" + s);
+    // }
+        return ((h < 10 ? "0" + h + ":" : h) + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "0:") + (s < 10        ? "0" : "") + s);
+    }
+    function cheat(secs)
+    {
+        var t = new Date(1970,0,1);
+        t.setSeconds(secs);
+        console.log( t.toTimeString().substr(1,7));
+        return t.toTimeString().substr(1,7);
+    }
 
-function adjustSpeed(speed)
-{
-	console.log("adjusting speed");
-	var v = document.getElementsByTagName('video')[0];
-	v.playbackRate = speed;
-}
+    function adjustSpeed(speed)
+    {
+        console.log("adjusting speed");
+        var v = document.getElementsByTagName('video')[0];
+        v.playbackRate = speed;
+    }
 
-function setSaveFile() 
-{
-	var obj = document.getElementById("transcriptArea");
-	var a = document.getElementById('save');
-	if(!a)
-   		a = document.createElement('save');
-  	var contents = document.getElementById('transcriptArea').value;
-  	var mime_type = 'text/plain'; // text/html, image/png, et c
-  	var file_name = 'tmp_backup.txt';
-  	a.setAttribute('download', file_name);
-  	a.href = 'data:'+ mime_type +';base64,'+ btoa(contents || '');
-  	a.click();
-  	//obj.value = '\n\n\n\n'; 
-}
+    function setSaveFile() 
+    {
+        var obj = document.getElementById("transcriptArea");
+        var a = document.getElementById('save');
+        if(!a)
+                a = document.createElement('save');
+        var contents = document.getElementById('transcriptArea').value;
+        var mime_type = 'text/plain'; // text/html, image/png, et c
+        var file_name = 'tmp_backup.txt';
+        a.setAttribute('download', file_name);
+        a.href = 'data:'+ mime_type +';base64,'+ btoa(contents || '');
+        a.click();
+    }
 
-</script></head>
+    </script>
+</head>
 
 <body>
-	<div id="container"></div>
-	<div id="content">
-		<div id="top-banner">
-			<div id="logo-img"></div>
-		</div>
-		<div id="left-wrapper">
-			<div id="vertical-line">
-				<div id="anchor">
-					<video controls="controls">
-						<source src="https://s3.amazonaws.com/elearn-content/wsu/module5/section11/WSU_M5_S11.mp4" type="video/mp4">
-					</video>
-					<br>
-					<div class="switch switch-three candy blue" style="width: 200px; display: inline-block;">
-						<input id="half" name="view3" type="radio">
-						<label for="half" onclick="adjustSpeed(0.75)">0.75x</label>
+    <div id="container"></div>
+    <div id="content">
+        <div id="top-banner">
+            <div id="logo-img"></div>
+        </div>
+        <div id="left-wrapper">
+            <div id="vertical-line">
+                <div id="anchor">
+                    <video controls="controls">
+                        <source src="https://s3.amazonaws.com/elearn-content/wsu/module5/section11/WSU_M5_S11.mp4" type="video/mp4">
+                    </video>
+                    <br />
+                    <div class="switch switch-three candy blue" style="width: 200px; display: inline-block;">
+                        <input id="half" name="view1" type="radio" /><label for="half" onclick="adjustSpeed(0.75)">0.75x</label>
+                        <input id="normal" name="view2" type="radio" checked="checked" /><label for="normal" onclick="adjustSpeed(1.0)">1.0x</label>
+                        <input id="spedup" name="view3" type="radio" /><label for="spedup" onclick="adjustSpeed(1.5)">1.5x</label>
+                        <a id="save" name="save" onclick="setSaveFile()"><font color="#0000FF">Save</font></a>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                	// setInterval( function() { setSaveFile(); }, 180000);
+                </script>
+                <div id="below-video" style="text-align:center;"></div>
+            </div>
+        </div>
 
-						<input id="normal" name="view3" type="radio" checked="">	
-						<label for="normal" onclick="adjustSpeed(1.0)">1.0x</label>
-						
-						<input id="spedup" name="view3" type="radio">
-						<label for="spedup" onclick="adjustSpeed(1.5)">1.5x</label>
-						
-						<a id="save" name="save" onclick="setSaveFile()"><font color="#0000FF">Save</font></a>
-
-						<span class="slide-button"></span>
-					</div>
-
-				</div>
-			<script>
-          setInterval(function() { setSaveFile(); }, 180000);
-          </script>
-				<div id="below-video" style="text-align:center;">
-				</div>
-			</div>
-		</div>
-		<div id="right-wrapper">
-			<div id="transcript">
-				<textarea id="transcriptArea" maxlength="1000000000000">			&lt;/div&gt;
-		&lt;/div&gt;
-	&lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;</textarea></div></div></div></body></html>
+        <div id="right-wrapper">
+            <div id="transcript">
+                <textarea id="transcriptArea" maxlength="1000000000000"></textarea>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
